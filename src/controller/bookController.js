@@ -94,7 +94,7 @@ const createBook = async (req, res) => {
 
         const isTitleUnique = await BooksModel.findOne({
             title
-        }).catch(e => null);
+        })
         if (isTitleUnique) return res.status(400).send({
             status: false,
             message: "Title already exist"
@@ -102,7 +102,7 @@ const createBook = async (req, res) => {
 
         const isISBNUnique = await BooksModel.findOne({
             ISBN
-        }).catch(e => null);
+        })
         if (isISBNUnique) return res.status(400).send({
             status: false,
             message: "ISBN already exist"

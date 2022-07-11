@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+/***********************************[CREATE USER-SCHEMA]************************************/
 const userSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -49,4 +50,5 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
+/**********************************[CREATE DB CONNECTION]*************************************/
 module.exports = mongoose.model('User', userSchema)

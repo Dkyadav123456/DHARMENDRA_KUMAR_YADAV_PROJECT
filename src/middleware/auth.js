@@ -4,8 +4,8 @@ const UserModel = require('../modules/UserModel')
 const jwt = require('jsonwebtoken')
 const { isValidObjectId } = require("../utility/validation")
 
-//authentication
 
+/**************************************[AUTHENTICATION]***************************************/
 const authenticate = (req, res, next) => {
     try {
         // get header key
@@ -16,7 +16,7 @@ const authenticate = (req, res, next) => {
         }) //if token is empty
 
         // decode token data
-        jwt.verify(token, 'functionUp-Uranium', (err, decode) => {
+        jwt.verify(token, 'DHARMENDRAKUMARYADAV-SIWAN-BIHAR-PINCODE-841506', (err, decode) => {
             if (err) {
                 return res.status(401).send({
                     status: false,
@@ -35,8 +35,8 @@ const authenticate = (req, res, next) => {
     }
 }
 
-//user authrization
 
+/************************************[USER-AUTHORIZATION]*************************************/
 const userAuthrization = async (req, res, next) => {
     try {
         //userId from body
@@ -71,8 +71,8 @@ const userAuthrization = async (req, res, next) => {
     }
 }
 
-//book authrization
 
+/************************************[BOOK-AUTHORIZATION]*************************************/
 const bookAuthorization = async (req, res, next) => {
     try {
         // get book from params
@@ -111,13 +111,5 @@ const bookAuthorization = async (req, res, next) => {
 }
 
 
-
-
-
-
-
-module.exports = {
-    authenticate,
-    userAuthrization,
-    bookAuthorization
-}
+/********************************[PUBLICALLY ALL METHOD'S]************************************/
+module.exports = {authenticate,userAuthrization,bookAuthorization}

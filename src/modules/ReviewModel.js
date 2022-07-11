@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Schema.Types.ObjectId
 
+/***********************************[CREATE REVIEW-SCHEMA]************************************/
 const reviewSchema = new mongoose.Schema({
     bookId: {
         type: ObjectId,
@@ -32,5 +33,7 @@ const reviewSchema = new mongoose.Schema({
         default: false
     }
 
-})
+},{timestamps:true})
+
+/**********************************[CREATE DB CONNECTION]*************************************/
 module.exports=mongoose.model('Review',reviewSchema)

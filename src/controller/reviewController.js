@@ -1,12 +1,9 @@
 const reviewsModel = require('../modules/ReviewModel')
 const booksModel = require('../modules/BooksModel')
 const validation = require('../utility/validation')
-const {
-    isValidObjectId
-} = require("../utility/validation")
+const {isValidObjectId} = require("../utility/validation")
 
-
-//=====================================================[CREATE REVIEW API]============================================================
+/**********************************[CREATE REVIEW API]****************************************/
 const create = async (req, res) => {
     try {
         // get book id
@@ -88,10 +85,7 @@ const create = async (req, res) => {
             await isBook.save(); //The save() method is asynchronous, so it returns a promise that you can await on.
         }
 
-        res.status(201).send({
-            status: true,
-            data: await bookWithReviewList(bookId)
-        })
+        res.status(201).send({status: true,data: isBook})
 
     } catch (e) {
         res.status(500).send({
@@ -101,10 +95,7 @@ const create = async (req, res) => {
     }
 }
 
-
-
-//=====================================================[UPDATE REVIEW API]============================================================
-
+/**********************************[UPDATE REVIEW API]****************************************/
 const update = async (req, res) => {
     try {
 
@@ -143,7 +134,7 @@ const update = async (req, res) => {
         })
 
 
-        // check Review from db ---
+        // check Review from db --
         const isReview = await reviewsModel.findById(reviewId).catch(_ => null)
         // check if exist or not
         if (!isReview) return res.status(404).send({
@@ -198,7 +189,8 @@ const update = async (req, res) => {
         await isReview.save()
         res.status(200).send({
             status: true,
-            data: await bookWithReviewList(bookId)
+            //data: await bookWithReviewList(bookId)
+            data:isReview
         })
 
     } catch (e) {
@@ -209,12 +201,7 @@ const update = async (req, res) => {
     }
 }
 
-
-
-
-
-//=====================================================[DELETE REVIEW API]============================================================
-
+/***************************************[DELETE REVIEW API'S]*********************************/
 const deleted = async (req, res) => {
     try {
         // get book id
@@ -245,7 +232,7 @@ const deleted = async (req, res) => {
         })
 
 
-        // check Review from db ---
+        // check Review from db 
         const isReview = await reviewsModel.findById(reviewId).catch(_ => null)
         // check if exist or not
         if (!isReview) return res.status(404).send({
@@ -291,43 +278,8 @@ const deleted = async (req, res) => {
     }
 }
 
-
-
-// ⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕⭕
-// book doc with review arr 👉 use if required
-const bookWithReviewList = async (bookId) => {
-    const bookDoc = await booksModel.findById(bookId).catch(_ => null)
-    let output = {
-        _id: bookDoc._id,
-        title: bookDoc.title,
-        excerpt: bookDoc.excerpt,
-        userId: bookDoc.userId,
-        category: bookDoc.category,
-        subcategory: bookDoc.subcategory,
-        deleted: bookDoc.deleted,
-        reviews: bookDoc.reviews,
-        deletedAt: bookDoc.deletedAt,
-        releasedAt: bookDoc.releasedAt,
-        createdAt: bookDoc.createdAt,
-        updatedAt: bookDoc.updatedAt
-    }
-
-    // get arr of reviews
-    const reviewArr = await reviewsModel.find({
-        bookId,
-        isDeleted: false
-    }).select({
-        __v: 0,
-        isDeleted: 0
-    }).catch(_ => [])
-    output.reviewsData = reviewArr
-    return output
-}
+/************************************[PUBLICALLY ALL-METHOD'S]********************************/
+module.exports = {create,deleted,update}
 
 
 
-module.exports = {
-    create,
-    deleted,
-    update
-}

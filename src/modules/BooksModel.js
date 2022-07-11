@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Schema.Types.ObjectId
 
+
+/***********************************[CREATE BOOK-SCHEMA]**************************************/
 const bookSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -50,8 +52,7 @@ const bookSchema = new mongoose.Schema({
         trim:true,
         required:'ReleasedAt must be required'
     },
-}, {
-    timestamps: true
-})
+}, {timestamps: true})
 
+/**********************************[CREATE DB CONNECTION]*************************************/
 module.exports = mongoose.model('Book', bookSchema)
